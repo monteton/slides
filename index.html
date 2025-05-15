@@ -1,0 +1,435 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Слайды - Официальный сайт</title>
+    <link href="https://fonts.cdnfonts.com/css/eurofurence" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #ff6200;
+            font-family: 'eurofurence', sans-serif;
+            overflow-x: hidden;
+        }
+
+        svg.defs {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(26, 26, 26, 0.9);
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: #ff6200;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #1c0b2b;
+            background-image: 
+                linear-gradient(rgba(139, 0, 255, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 0, 255, 0.2) 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, rgba(139, 0, 255, 0.3), transparent 50%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+            z-index: 0;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 1920px;
+            height: auto;
+            object-fit: cover;
+            z-index: 1;
+            background-color: #ffffff; /* Непрозрачность для PNG */
+            /* Если PNG не загружается, попробуйте: src="/images/background.png" */
+        }
+
+        .hero h1 {
+            font-size: 12rem;
+            text-transform: uppercase;
+            color: #ff6200;
+            position: absolute;
+            bottom: 15%;
+            z-index: 2;
+            -webkit-text-stroke: 2px #ffffff;
+            text-stroke: 2px #ffffff;
+            text-shadow: 0 0 15px #ff6200, 0 0 30px #ff6200, 0 0 45px #e65c00;
+            filter: url(#rough-edge);
+            animation: neonFlicker 0.5s infinite alternate;
+        }
+
+        .hero p {
+            font-size: 3rem;
+            color: #ff6200;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            position: absolute;
+            bottom: 5%;
+            z-index: 2;
+        }
+
+        section {
+            padding: 100px 20px;
+            text-align: center;
+            background: #252525;
+            margin-bottom: 20px;
+        }
+
+        section h2 {
+            font-size: 3rem;
+            color: #ff6200;
+            margin-bottom: 20px;
+        }
+
+        section p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: #ff6200;
+        }
+
+        .gallery {
+            padding: 100px 20px;
+            background: #252525;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .gallery-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 20px;
+            max-width: 100%;
+            scrollbar-width: thin;
+        }
+
+        .gallery-container img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            scroll-snap-align: start;
+            transition: transform 0.3s;
+        }
+
+        .gallery-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .portfolio video {
+            max-width: 800px;
+            width: 100%;
+            height: 450px;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .concerts img {
+            max-width: 800px;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+            /* Если изображение не загружается, попробуйте: src="/images/concert.jpg" */
+        }
+
+        .merch ul {
+            list-style: none;
+            max-width: 800px;
+            margin: 20px auto;
+            font-size: 1.2rem;
+        }
+
+        .merch li {
+            margin: 10px 0;
+            color: #ff6200;
+        }
+
+        footer {
+            padding: 50px 20px;
+            background: #1a1a1a;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 1.1rem;
+            color: #ff6200;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        @keyframes neonFlicker {
+            0% { text-shadow: 0 0 15px #ff6200, 0 0 30px #ff6200, 0 0 45px #e65c00; }
+            100% { text-shadow: 0 0 5px #ff6200, 0 0 10px #ff6200, 0 0 15px #e65c00; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 7rem;
+                padding: 10px;
+                -webkit-text-stroke: 1px #ffffff;
+                text-stroke: 1px #ffffff;
+                bottom: 20%;
+            }
+
+            .hero p {
+                font-size: 2rem;
+                bottom: 5%;
+            }
+
+            .background-image {
+                width: 100%;
+            }
+
+            .gallery-container img {
+                width: 200px;
+                height: 150px;
+            }
+
+            .portfolio video {
+                height: 200px;
+            }
+
+            .concerts img {
+                height: auto;
+            }
+
+            nav a {
+                margin: 0 10px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <svg class="defs">
+        <filter id="rough-edge">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </svg>
+
+    <nav>
+        <a href="#about">О группе</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#portfolio">Портфолио</a>
+        <a href="#concerts">Концерты</a>
+        <a href="#merch">Мерч</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+
+    <section class="hero" id="home">
+        <img class="background-image" src="images/background.png" alt="Background">
+        <h1>Слайды</h1>
+        <p>Любовь и праздник!</p>
+    </section>
+
+    <section class="about" id="about">
+        <h2>О группе</h2>
+        <p>Кавер-группа "Слайды". Жизнерадостная, танцевальная, музыкальная программа для Вашего праздника. Самые любимые хиты русской музыки, различных жанров, в аранжировках духовых инструментов, прозвучат на Вашем празднике!!!</p>
+        <p>«Слайды» — рок-группа из [Ваш город], основанная в 2020 году. Мы сочетаем драйв классического рока с современными ритмами, создавая музыку, которая цепляет с первого аккорда.</p>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <h2>Галерея</h2>
+        <div class="gallery-container">
+            <a href="images/1.jpg" target="_blank"><img src="images/1.jpg" alt="Photo 1"></a>
+            <a href="images/2.jpg" target="_blank"><img src="images/2.jpg" alt="Photo 2"></a>
+            <a href="images/3.jpg" target="_blank"><img src="images/3.jpg" alt="Photo 3"></a>
+            <a href="images/4.jpg" target="_blank"><img src="images/4.jpg" alt="Photo 4"></a>
+            <a href="images/5.jpg" target="_blank"><img src="images/5.jpg" alt="Photo 5"></a>
+            <a href="images/6.jpg" target="_blank"><img src="images/6.jpg" alt="Photo 6"></a>
+            <a href="images/7.jpg" target="_blank"><img src="images/7.jpg" alt="Photo 7"></a>
+            <a href="images/8.jpg" target="_blank"><img src="images/8.jpg" alt="Photo 8"></a>
+            <a href="images/9.jpg" target="_blank"><img src="images/9.jpg" alt="Photo 9"></a>
+            <a href="images/10.jpg" target="_blank"><img src="images/10.jpg" alt="Photo 10"></a>
+            <a href="images/11.jpg" target="_blank"><img src="images/11.jpg" alt="Photo 11"></a>
+            <a href="images/12.jpg" target="_blank"><img src="images/12.jpg" alt="Photo 12"></a>
+            <a href="images/13.jpg" target="_blank"><img src="images/13.jpg" alt="Photo 13"></a>
+            <a href="images/14.jpg" target="_blank"><img src="images/14.jpg" alt="Photo 14"></a>
+            <a href="images/15.jpg" target="_blank"><img src="images/15.jpg" alt="Photo 15"></a>
+            <a href="images/16.jpg" target="_blank"><img src="images/16.jpg" alt="Photo 16"></a>
+            <a href="images/17.jpg" target="_blank"><img src="images/17.jpg" alt="Photo 17"></a>
+            <a href="images/18.jpg" target="_blank"><img src="images/18.jpg" alt="Photo 18"></a>
+            <a href="images/19.jpg" target="_blank"><img src="images/19.jpg" alt="Photo 19"></a>
+            <a href="images/20.jpg" target="_blank"><img src="images/20.jpg" alt="Photo 20"></a>
+        </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <h2>Портфолио</h2>
+        <p>Наши последние промо-видео</p>
+        <video src="video/video1.mp4" controls autoplay muted loop></video>
+        <video src="video/video2.mp4" controls autoplay muted loop></video>
+        <video src="video/video3.mp4" controls autoplay muted loop></video>
+    </section>
+
+    <section class="concerts" id="concerts">
+        <h2>Наши концерты</h2>
+        <img class="concert-image" src="images/concert.jpg" alt="Concert Schedule">
+    </section>
+
+    <section class="merch" id="merch">
+        <h2>Мерч</h2>
+        <ul>
+            <li>Футболка «Слайды» — 2000 ₽</li>
+            <li>Худи с логотипом — 4000 ₽</li>
+            <li>Винил «Альбом 1» — 3000 ₽</li>
+        </ul>
+    </section>
+
+    <footer id="contact">
+        <p>Связаться с «Слайды»</p>
+        <p>
+            <a href="#">Spotify</a> |
+            <a href="#">Instagram</a> |
+            <a href="#">YouTube</a> |
+            <a href="#">Email</a>
+        </p>
+        <p>© 2025 «Слайды». Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Проверка загрузки PNG
+        const bgImg = document.querySelector('.background-image');
+        bgImg.onerror = () => {
+            console.error('Ошибка загрузки PNG: images/background.png. Проверьте путь или файл. Использую запасное изображение.');
+            bgImg.src = 'https://via.placeholder.com/1920x1080/ffffff/000000?text=Slides+Background';
+        };
+        bgImg.onload = () => {
+            console.log('PNG успешно загружен: images/background.png. Размеры:', bgImg.naturalWidth, 'x', bgImg.naturalHeight);
+            if (bgImg.naturalWidth === 0 || bgImg.naturalHeight === 0) {
+                console.warn('PNG загружен, но размеры нулевые. Проверьте файл.');
+            }
+        };
+
+        // Проверка загрузки изображения концертов
+        const concertImg = document.querySelector('.concert-image');
+        concertImg.onerror = () => {
+            console.error('Ошибка загрузки изображения: images/concert.jpg. Проверьте путь или файл. Использую запасное изображение.');
+            concertImg.src = 'https://via.placeholder.com/800x450/ffffff/000000?text=Concert+Schedule';
+        };
+        concertImg.onload = () => {
+            console.log('Изображение концертов успешно загружено: images/concert.jpg. Размеры:', concertImg.naturalWidth, 'x', concertImg.naturalHeight);
+        };
+
+        // Проверка загрузки видео
+        const videos = document.querySelectorAll('.portfolio video');
+        videos.forEach((video, index) => {
+            video.onerror = () => {
+                console.error(`Ошибка загрузки видео: video/video${index + 1}.mp4. Проверьте путь или файл.`);
+            };
+            video.onloadeddata = () => {
+                console.log(`Видео успешно загружено: video/video${index + 1}.mp4`);
+            };
+        });
+
+        // Проверка загрузки фото
+        const galleryImages = document.querySelectorAll('.gallery-container img');
+        galleryImages.forEach((img, index) => {
+            img.onerror = () => {
+                console.error(`Ошибка загрузки фото: images/${index + 1}.jpg. Проверьте путь или файл.`);
+                img.src = 'https://via.placeholder.com/300x200/ffffff/000000?text=Photo+' + (index + 1);
+            };
+            img.onload = () => {
+                console.log(`Фото успешно загружено: images/${index + 1}.jpg`);
+            };
+        });
+    </script>
+</body>
+</html>
