@@ -70,9 +70,15 @@
             width: 100%;
             padding: 20px;
             background: rgba(26, 26, 26, 0.9);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
             display: flex;
             justify-content: center;
-            z-index: 1000;
         }
 
         nav a {
@@ -85,6 +91,13 @@
 
         nav a:hover {
             color: #ffd700;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #ff6200;
+            cursor: pointer;
         }
 
         .hero {
@@ -248,40 +261,113 @@
             100% { text-shadow: 0 0 5px #ff6200, 0 0 10px #ff6200, 0 0 15px #e65c00; }
         }
 
+        /* Мобильная версия */
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(26, 26, 26, 0.95);
+                padding: 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            nav a {
+                margin: 10px 0;
+                font-size: 1rem;
+                text-align: center;
+            }
+
             .hero h1 {
-                font-size: 7rem;
-                padding: 10px;
+                font-size: 4rem;
                 -webkit-text-stroke: 1px #ffffff;
                 text-stroke: 1px #ffffff;
-                bottom: 20%;
+                bottom: 25%;
+                padding: 10px;
             }
 
             .hero p {
-                font-size: 2rem;
-                bottom: 5%;
+                font-size: 1.5rem;
+                bottom: 10%;
             }
 
             .background-image {
                 width: 100%;
+                max-width: 100%;
+            }
+
+            section {
+                padding: 50px 10px;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            section p {
+                font-size: 1rem;
+            }
+
+            .gallery-container {
+                gap: 15px;
+                padding: 10px;
             }
 
             .gallery-container img {
-                width: 200px;
-                height: 150px;
+                width: 150px;
+                height: 100px;
             }
 
             .portfolio video {
-                height: 200px;
+                height: 150px;
+                max-width: 100%;
             }
 
             .concerts img {
+                max-width: 100%;
                 height: auto;
             }
 
-            nav a {
-                margin: 0 10px;
+            .merch ul {
                 font-size: 1rem;
+            }
+
+            footer {
+                padding: 30px 10px;
+            }
+
+            footer p {
+                font-size: 0.9rem;
+            }
+
+            footer a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .gallery-container img {
+                width: 120px;
+                height: 80px;
             }
         }
     </style>
@@ -295,12 +381,15 @@
     </svg>
 
     <nav>
-        <a href="#about">О группе</a>
-        <a href="#gallery">Галерея</a>
-        <a href="#portfolio">Портфолио</a>
-        <a href="#concerts">Концерты</a>
-        <a href="#merch">Мерч</a>
-        <a href="#contact">Контакты</a>
+        <div class="menu-toggle">☰</div>
+        <div class="nav-links">
+            <a href="#about">О группе</a>
+            <a href="#gallery">Галерея</a>
+            <a href="#portfolio">Портфолио</a>
+            <a href="#concerts">Концерты</a>
+            <a href="#merch">Мерч</a>
+            <a href="#contact">Контакты</a>
+        </div>
     </nav>
 
     <section class="hero" id="home">
@@ -383,6 +472,13 @@
                 const targetElement = document.getElementById(targetId);
                 targetElement.scrollIntoView({ behavior: 'smooth' });
             });
+        });
+
+        // Гамбургер-меню
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
         });
 
         // Проверка загрузки PNG
