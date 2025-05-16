@@ -42,20 +42,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Слайды - Официальный сайт 2.2</title>
+    <title>Слайды - Официальный сайт 2.6</title>
     <link href="https://fonts.cdnfonts.com/css/eurofurence" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0a0a0a;
             --primary-text: #e0e0e0;
             --accent-orange: #ff6200;
-            --accent-orange-glow: #ff8c00; /* Для box-shadow свечения */
-            --accent-orange-dark: #e65c00;
+            --accent-orange-glow: #ff8c00; 
+            --accent-orange-soft-glow: #e65c00; 
             --card-bg: #181818;
             --border-color: #2a2a2a;
             --font-main: 'eurofurence', sans-serif;
             --transition-speed: 0.3s;
-            --hero-title-neon-shadow: 0 0 8px var(--accent-orange), 0 0 15px var(--accent-orange), 0 0 25px var(--accent-orange-glow), 0 0 40px var(--accent-orange-dark), 0 0 55px var(--accent-orange-dark);
+            --text-color-white: #ffffff;
+
+            /* Новый стиль неона для H1: ровная, толстая обводка/трубка */
+            --hero-title-smooth-neon:
+                /* Слой 1: Очень легкое белое свечение для резкости белых букв (почти незаметное) */
+                0 0 1px var(--text-color-white), 
+                /* Слой 2: Формирование "трубки" - более плотные оранжевые тени */
+                0 0 4px var(--accent-orange),      /* Ближе к букве, более насыщенный */
+                0 0 8px var(--accent-orange),      /* Основная толщина "трубки" */
+                0 0 12px var(--accent-orange-glow),/* Начало свечения от трубки */
+                /* Слой 3: Внешнее, более широкое и мягкое свечение */
+                0 0 20px var(--accent-orange-glow),
+                0 0 35px var(--accent-orange-soft-glow),
+                0 0 50px var(--accent-orange-soft-glow);
         }
 
         * {
@@ -76,6 +89,7 @@
             line-height: 1.6;
         }
 
+        /* SVG фильтр больше не используется для H1, но может быть нужен для других элементов */
         svg.defs {
             position: absolute;
             width: 0;
@@ -150,7 +164,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Центрирование по вертикали */
+            justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
@@ -168,6 +182,7 @@
             object-fit: cover;
             z-index: 0;
             opacity: 0.25;
+            transition: opacity 0.3s ease;
         }
 
         .hero-content {
@@ -179,7 +194,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 15vh; /* Сдвигаем весь блок контента ЕЩЕ НИЖЕ */
+            margin-top: 30vh; 
         }
         @keyframes fadeInFromBottom {
             from { transform: translateY(50px); opacity: 0; }
@@ -189,23 +204,31 @@
         .hero h1 {
             font-size: clamp(4.5rem, 22vw, 15rem);
             text-transform: uppercase;
-            color: var(--accent-orange);
-            -webkit-text-stroke: 1px var(--primary-text);
-            text-stroke: 1px var(--primary-text);
-            text-shadow: var(--hero-title-neon-shadow);
-            filter: url(#rough-edge);
-            animation: heroNeonFlicker 2s infinite alternate, textPopIn 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.2s forwards;
+            color: var(--text-color-white); 
+            text-shadow: var(--hero-title-smooth-neon); /* Новый стиль неона */
+            /* filter: url(#rough-edge); УБРАН ФИЛЬТР для гладкости */
+            animation: heroNeonFlickerSmooth 2s infinite alternate, textPopIn 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.2s forwards;
             transform: scale(0.5);
             opacity: 0;
             line-height: 0.9;
-            margin-bottom: 15px; /* Отступ от h1 до первого подзаголовка */
+            margin-bottom: 15px;
         }
         @keyframes textPopIn {
             to { transform: scale(1); opacity: 1;}
         }
-        @keyframes heroNeonFlicker {
-            0%, 100% { text-shadow: var(--hero-title-neon-shadow); }
-            50% { text-shadow: 0 0 5px var(--accent-orange-glow), 0 0 10px var(--accent-orange-glow), 0 0 20px var(--accent-orange), 0 0 30px var(--accent-orange-dark), 0 0 40px var(--accent-orange-dark); }
+        /* Анимация для нового стиля неона */
+        @keyframes heroNeonFlickerSmooth {
+            0%, 100% { text-shadow: var(--hero-title-smooth-neon); }
+            50% {
+                text-shadow:
+                    0 0 1px var(--text-color-white),
+                    0 0 3px var(--accent-orange),    /* Менее интенсивная "трубка" при мерцании */
+                    0 0 6px var(--accent-orange),
+                    0 0 10px var(--accent-orange-glow),
+                    0 0 15px var(--accent-orange-glow), /* Менее интенсивное внешнее свечение */
+                    0 0 25px var(--accent-orange-soft-glow),
+                    0 0 40px var(--accent-orange-soft-glow);
+            }
         }
 
         .hero p.subtitle {
@@ -213,14 +236,13 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
-        .hero p.subtitle.main-tagline { /* Для "Любовь и праздник!" */
-            font-size: clamp(1.5rem, 5vw, 2.5rem); /* Крупнее */
-            margin-bottom: 5px; /* Отступ до следующего подзаголовка */
+        .hero p.subtitle.main-tagline {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 5px;
         }
-        .hero p.subtitle.band-type { /* Для "кавер бенд слайды" */
-             font-size: clamp(1rem, 3.5vw, 1.8rem); /* Чуть меньше */
+        .hero p.subtitle.site-type { 
+             font-size: clamp(1rem, 3.5vw, 1.8rem);
         }
-
 
         .scroll-down-indicator {
             position: absolute;
@@ -475,17 +497,13 @@
         }
 
         /* --- Мобильная версия --- */
-        @media (max-width: 992px) {
-            .hero h1 {
-                 -webkit-text-stroke-width: 1px;
-                 text-stroke-width: 1px;
-            }
-             .hero-content {
-                margin-top: 10vh; /* Поменьше сдвиг на планшетах */
+        @media (max-width: 992px) { /* Планшеты */
+            .hero-content {
+                margin-top: 25vh; 
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 768px) { /* Мобильные */
             .menu-toggle { display: block; }
             .nav-links {
                 display: none; flex-direction: column; position: fixed;
@@ -499,11 +517,18 @@
             .nav-links.active { display: flex; transform: translateX(0%); }
             nav a { margin: 20px 0; font-size: 1.5rem; }
 
-            .hero h1 { font-size: clamp(3.5rem, 25vw, 8rem); margin-bottom:10px; }
+            .hero h1 { 
+                font-size: clamp(3.5rem, 25vw, 8rem); 
+                margin-bottom:10px; 
+            }
             .hero p.subtitle.main-tagline { font-size: clamp(1.2rem, 6vw, 2rem); }
-            .hero p.subtitle.band-type { font-size: clamp(0.9rem, 4vw, 1.4rem); }
-            .hero-content { margin-top: 8vh; /* Еще чуть меньше на мобильных */ }
+            .hero p.subtitle.site-type { font-size: clamp(0.9rem, 4vw, 1.4rem); }
+            .hero-content { margin-top: 20vh; }
 
+            .background-image {
+                opacity: 0.1; 
+                object-position: center 20%; 
+            }
 
             section { padding: 80px 5%; }
             .section-title { margin-bottom: 40px; }
@@ -515,19 +540,24 @@
             .merch .item-price { font-size: 1.2rem; }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 480px) { /* Совсем маленькие экраны */
             nav { padding: 15px 5%; }
             .hero h1 { line-height: 1; }
             .gallery-container { grid-template-columns: 1fr; gap: 15px; }
             .merch ul { font-size: 1rem; }
-            .hero-content { margin-top: 5vh; }
+            .hero-content { margin-top: 18vh; } 
             .hero p.subtitle.main-tagline { font-size: clamp(1rem, 7vw, 1.8rem); }
-            .hero p.subtitle.band-type { font-size: clamp(0.8rem, 5vw, 1.2rem); }
+            .hero p.subtitle.site-type { font-size: clamp(0.8rem, 5vw, 1.2rem); }
+            .background-image {
+                opacity: 0.05; 
+                object-position: center 10%; 
+            }
         }
     </style>
 </head>
 <body>
-    <svg class="defs">
+    <!-- SVG фильтр больше не используется для H1, но оставляю, если понадобится для другого -->
+    <svg class="defs"> 
         <filter id="rough-edge">
             <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise"/>
             <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G"/>
@@ -550,8 +580,8 @@
         <img class="background-image" src="images/background.png" alt="Фоновое изображение группы Слайды">
         <div class="hero-content">
             <h1>Слайды</h1>
-            <p class="subtitle main-tagline">Любовь и праздник!</p> <!-- ВОЗВРАЩЕН И СТИЛИЗОВАН -->
-            <p class="subtitle band-type">официальный сайт</p> <!-- "слайды" убрал отсюда, т.к. оно уже в h1 -->
+            <p class="subtitle main-tagline">Любовь и праздник!</p>
+            <p class="subtitle site-type">официальный сайт</p>
         </div>
         <a href="#about" class="scroll-down-indicator" aria-label="Прокрутить вниз">⌄</a>
     </section>
