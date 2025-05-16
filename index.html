@@ -42,7 +42,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Слайды - Официальный сайт 2.1</title>
+    <title>Слайды - Официальный сайт 2.2</title>
     <link href="https://fonts.cdnfonts.com/css/eurofurence" rel="stylesheet">
     <style>
         :root {
@@ -55,7 +55,6 @@
             --border-color: #2a2a2a;
             --font-main: 'eurofurence', sans-serif;
             --transition-speed: 0.3s;
-            /* Неоновая тень ТОЛЬКО для главного заголовка */
             --hero-title-neon-shadow: 0 0 8px var(--accent-orange), 0 0 15px var(--accent-orange), 0 0 25px var(--accent-orange-glow), 0 0 40px var(--accent-orange-dark), 0 0 55px var(--accent-orange-dark);
         }
 
@@ -126,9 +125,8 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background-color: var(--accent-orange); /* Просто оранжевая линия */
+            background-color: var(--accent-orange);
             transition: width var(--transition-speed) ease, left var(--transition-speed) ease;
-            /* box-shadow: var(--neon-shadow); УБРАНО */
         }
 
         nav a:hover, nav a.active-link {
@@ -152,13 +150,13 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; /* Центрирование по вертикали */
             align-items: center;
             position: relative;
             overflow: hidden;
             background: var(--bg-color);
             text-align: center;
-            padding: 20px; /* Общий паддинг для .hero */
+            padding: 20px;
         }
 
         .background-image {
@@ -169,7 +167,7 @@
             height: 100%;
             object-fit: cover;
             z-index: 0;
-            opacity: 0.25; /* Чуть менее прозрачный фон */
+            opacity: 0.25;
         }
 
         .hero-content {
@@ -181,7 +179,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 5vh; /* Сдвигаем весь блок контента чуть ниже центра */
+            margin-top: 15vh; /* Сдвигаем весь блок контента ЕЩЕ НИЖЕ */
         }
         @keyframes fadeInFromBottom {
             from { transform: translateY(50px); opacity: 0; }
@@ -189,37 +187,40 @@
         }
 
         .hero h1 {
-            font-size: clamp(4.5rem, 22vw, 15rem); /* ЕЩЕ КРУПНЕЕ */
+            font-size: clamp(4.5rem, 22vw, 15rem);
             text-transform: uppercase;
             color: var(--accent-orange);
             -webkit-text-stroke: 1px var(--primary-text);
             text-stroke: 1px var(--primary-text);
-            text-shadow: var(--hero-title-neon-shadow); /* Используем специальную переменную */
+            text-shadow: var(--hero-title-neon-shadow);
             filter: url(#rough-edge);
             animation: heroNeonFlicker 2s infinite alternate, textPopIn 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.2s forwards;
             transform: scale(0.5);
             opacity: 0;
-            line-height: 0.9; /* Для очень крупных шрифтов, чтобы строки были ближе */
-            margin-bottom: 10px; /* Небольшой отступ снизу */
+            line-height: 0.9;
+            margin-bottom: 15px; /* Отступ от h1 до первого подзаголовка */
         }
         @keyframes textPopIn {
             to { transform: scale(1); opacity: 1;}
         }
-        /* Специальная анимация неона для главного заголовка */
         @keyframes heroNeonFlicker {
             0%, 100% { text-shadow: var(--hero-title-neon-shadow); }
             50% { text-shadow: 0 0 5px var(--accent-orange-glow), 0 0 10px var(--accent-orange-glow), 0 0 20px var(--accent-orange), 0 0 30px var(--accent-orange-dark), 0 0 40px var(--accent-orange-dark); }
         }
 
-
         .hero p.subtitle {
-            font-size: clamp(1.2rem, 4vw, 2rem); /* Размер подзаголовка */
-            color: var(--primary-text); /* Белый/светло-серый */
-            margin-top: 0; /* Убираем верхний отступ, т.к. h1 уже имеет margin-bottom */
+            color: var(--primary-text);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); УБРАНО, если считалось неоном */
         }
+        .hero p.subtitle.main-tagline { /* Для "Любовь и праздник!" */
+            font-size: clamp(1.5rem, 5vw, 2.5rem); /* Крупнее */
+            margin-bottom: 5px; /* Отступ до следующего подзаголовка */
+        }
+        .hero p.subtitle.band-type { /* Для "кавер бенд слайды" */
+             font-size: clamp(1rem, 3.5vw, 1.8rem); /* Чуть меньше */
+        }
+
 
         .scroll-down-indicator {
             position: absolute;
@@ -250,11 +251,10 @@
 
         .section-title {
             font-size: clamp(2.5rem, 6vw, 3.5rem);
-            color: var(--accent-orange); /* Просто оранжевый */
+            color: var(--accent-orange);
             margin-bottom: 60px;
             text-align: center;
             text-transform: uppercase;
-            /* text-shadow: var(--neon-shadow); УБРАНО */
             position: relative;
             padding-bottom: 15px;
         }
@@ -266,8 +266,7 @@
             transform: translateX(-50%);
             width: 80px;
             height: 3px;
-            background: var(--accent-orange); /* Просто оранжевая линия */
-            /* box-shadow: var(--neon-shadow); УБРАНО */
+            background: var(--accent-orange);
             border-radius: 2px;
         }
 
@@ -275,7 +274,7 @@
             max-width: 800px;
             margin: 0 auto 40px auto;
             font-size: 1.2rem;
-            color: var(--primary-text); /* Белый/светло-серый */
+            color: var(--primary-text);
             text-align: center;
             line-height: 1.7;
         }
@@ -310,7 +309,6 @@
         }
         .gallery-item:hover {
             transform: scale(1.05);
-            /* Свечение контейнера, не текста */
             box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 15px var(--accent-orange-glow);
         }
 
@@ -331,13 +329,13 @@
             left: 0;
             right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-            color: white; /* Текст в оверлее белый */
+            color: white;
             padding: 20px;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
         }
-        .gallery-item .overlay p { color: white !important; } /* Убедимся, что текст белый */
+        .gallery-item .overlay p { color: white !important; }
         .gallery-item:hover .overlay {
             opacity: 1;
             transform: translateY(0);
@@ -360,7 +358,6 @@
         }
         .portfolio video:hover {
             border-color: var(--accent-orange);
-            /* Свечение контейнера, не текста */
             box-shadow: 0 0 20px var(--accent-orange-glow);
         }
 
@@ -383,7 +380,6 @@
         }
         .concerts img.concert-image:hover {
             transform: scale(1.03);
-            /* Свечение контейнера, не текста */
             box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 15px var(--accent-orange-glow);
         }
 
@@ -411,14 +407,13 @@
         }
         .merch li:hover {
             transform: translateY(-5px) scale(1.02);
-            /* Свечение контейнера, не текста */
             box-shadow: 0 6px 15px rgba(0,0,0,0.3), 0 0 10px var(--accent-orange-glow);
         }
         .merch .item-name {
-            color: var(--primary-text); /* Белый/светло-серый */
+            color: var(--primary-text);
         }
         .merch .item-price {
-            color: var(--accent-orange); /* Оранжевый */
+            color: var(--accent-orange);
             font-weight: bold;
             font-size: 1.3rem;
         }
@@ -432,20 +427,20 @@
 
         footer .footer-title {
             font-size: 1.8rem;
-            color: var(--accent-orange); /* Оранжевый */
+            color: var(--accent-orange);
             margin-bottom: 20px;
             text-transform: uppercase;
         }
 
         .social-links a {
-            color: var(--primary-text); /* Белый/светло-серый */
+            color: var(--primary-text);
             text-decoration: none;
             margin: 0 15px;
             font-size: 1.5rem;
             transition: color var(--transition-speed), transform var(--transition-speed);
         }
         .social-links a:hover {
-            color: var(--accent-orange); /* Оранжевый при наведении */
+            color: var(--accent-orange);
             transform: scale(1.1);
         }
 
@@ -456,14 +451,11 @@
         }
 
         /* --- Animations --- */
-        /* heroNeonFlicker определена выше, специфична для .hero h1 */
-
-        /* Классы для анимации при прокрутке (JS) */
         .animate-on-scroll {
             opacity: 0;
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .animate-on-scroll.fade-in.visible { /* Добавил .visible для срабатывания */
+        .animate-on-scroll.fade-in.visible {
             opacity: 1;
         }
         .animate-on-scroll.slide-in-up {
@@ -488,27 +480,30 @@
                  -webkit-text-stroke-width: 1px;
                  text-stroke-width: 1px;
             }
+             .hero-content {
+                margin-top: 10vh; /* Поменьше сдвиг на планшетах */
+            }
         }
 
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             .nav-links {
-                display: none;
-                flex-direction: column;
-                position: fixed;
+                display: none; flex-direction: column; position: fixed;
                 top: 0; left: 0; width: 100%; height: 100vh;
                 background: rgba(10, 10, 10, 0.98);
                 backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-                padding-top: 80px;
-                align-items: center; justify-content: center;
+                padding-top: 80px; align-items: center; justify-content: center;
                 transform: translateX(100%);
                 transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             }
             .nav-links.active { display: flex; transform: translateX(0%); }
             nav a { margin: 20px 0; font-size: 1.5rem; }
 
-            .hero h1 { font-size: clamp(3.5rem, 25vw, 8rem); } /* Адаптация для мобильных */
-            .hero p.subtitle { font-size: clamp(1rem, 5vw, 1.5rem); }
+            .hero h1 { font-size: clamp(3.5rem, 25vw, 8rem); margin-bottom:10px; }
+            .hero p.subtitle.main-tagline { font-size: clamp(1.2rem, 6vw, 2rem); }
+            .hero p.subtitle.band-type { font-size: clamp(0.9rem, 4vw, 1.4rem); }
+            .hero-content { margin-top: 8vh; /* Еще чуть меньше на мобильных */ }
+
 
             section { padding: 80px 5%; }
             .section-title { margin-bottom: 40px; }
@@ -522,9 +517,12 @@
 
         @media (max-width: 480px) {
             nav { padding: 15px 5%; }
-            .hero h1 { line-height: 1; } /* Может понадобиться для очень крупных шрифтов на мал. экранах */
+            .hero h1 { line-height: 1; }
             .gallery-container { grid-template-columns: 1fr; gap: 15px; }
             .merch ul { font-size: 1rem; }
+            .hero-content { margin-top: 5vh; }
+            .hero p.subtitle.main-tagline { font-size: clamp(1rem, 7vw, 1.8rem); }
+            .hero p.subtitle.band-type { font-size: clamp(0.8rem, 5vw, 1.2rem); }
         }
     </style>
 </head>
@@ -552,7 +550,8 @@
         <img class="background-image" src="images/background.png" alt="Фоновое изображение группы Слайды">
         <div class="hero-content">
             <h1>Слайды</h1>
-            <p class="subtitle">кавер бенд слайды</p> <!-- ИЗМЕНЕН ТЕКСТ -->
+            <p class="subtitle main-tagline">Любовь и праздник!</p> <!-- ВОЗВРАЩЕН И СТИЛИЗОВАН -->
+            <p class="subtitle band-type">кавер бенд</p> <!-- "слайды" убрал отсюда, т.к. оно уже в h1 -->
         </div>
         <a href="#about" class="scroll-down-indicator" aria-label="Прокрутить вниз">⌄</a>
     </section>
@@ -614,14 +613,14 @@
         <p class="section-intro animate-on-scroll slide-in-up" data-delay="100">Наши последние промо-видео. Погрузитесь в атмосферу наших выступлений!</p>
         <div class="portfolio-grid">
             <video class="animate-on-scroll slide-in-left" data-delay="0" src="video/video1.mp4" controls autoplay muted loop></video>
-            <video class="animate-on-scroll fade-in visible" data-delay="200" src="video/video2.mp4" controls autoplay muted loop></video> <!-- Добавил .visible для fade-in -->
+            <video class="animate-on-scroll fade-in visible" data-delay="200" src="video/video2.mp4" controls autoplay muted loop></video>
             <video class="animate-on-scroll slide-in-right" data-delay="0" src="video/video3.mp4" controls autoplay muted loop></video>
         </div>
     </section>
 
     <section class="concerts" id="concerts">
         <h2 class="section-title animate-on-scroll slide-in-up">Наши концерты</h2>
-        <div class="concerts-content animate-on-scroll fade-in visible" data-delay="100"> <!-- Добавил .visible для fade-in -->
+        <div class="concerts-content animate-on-scroll fade-in visible" data-delay="100">
              <p class="section-intro">Следите за нашими анонсами и приходите зажигать вместе с нами!</p>
              <img class="concert-image" src="images/concert.jpg" alt="Афиша концертов группы Слайды">
         </div>
@@ -630,7 +629,7 @@
     <section class="merch" id="merch">
         <h2 class="section-title animate-on-scroll slide-in-up">Мерч</h2>
         <p class="section-intro animate-on-scroll slide-in-up" data-delay="100">Закажите фирменный мерч "Слайды" и станьте частью нашей команды!</p>
-        <ul class="animate-on-scroll fade-in visible" data-delay="200"> <!-- Добавил .visible для fade-in -->
+        <ul class="animate-on-scroll fade-in visible" data-delay="200">
             <li data-delay="0"><span class="item-name">Футболка «Слайды»</span> <span class="item-price">2000 ₽</span></li>
             <li data-delay="100"><span class="item-name">Худи с логотипом</span> <span class="item-price">4000 ₽</span></li>
             <li data-delay="200"><span class="item-name">Винил «Альбом 1»</span> <span class="item-price">3000 ₽</span></li>
@@ -638,14 +637,14 @@
     </section>
 
     <footer id="contact">
-        <h3 class="footer-title animate-on-scroll fade-in visible">Связаться с «Слайды»</h3> <!-- Добавил .visible для fade-in -->
-        <div class="social-links animate-on-scroll fade-in visible" data-delay="100"> <!-- Добавил .visible для fade-in -->
+        <h3 class="footer-title animate-on-scroll fade-in visible">Связаться с «Слайды»</h3>
+        <div class="social-links animate-on-scroll fade-in visible" data-delay="100">
             <a href="#" aria-label="Слайды в Spotify">Spotify</a> |
             <a href="#" aria-label="Слайды в Instagram">Instagram</a> |
             <a href="#" aria-label="Слайды на YouTube">YouTube</a> |
             <a href="mailto:example@example.com" aria-label="Написать нам на Email">Email</a>
         </div>
-        <p class="copyright animate-on-scroll fade-in visible" data-delay="200">© <span id="current-year"></span> «Слайды». Все права защищены.</p> <!-- Добавил .visible для fade-in -->
+        <p class="copyright animate-on-scroll fade-in visible" data-delay="200">© <span id="current-year"></span> «Слайды». Все права защищены.</p>
     </footer>
 
     <script>
@@ -662,7 +661,7 @@
                 nav.classList.remove('scrolled');
             }
 
-            let currentSectionId = 'home'; // Default to home
+            let currentSectionId = 'home';
             const navHeightOffset = nav.offsetHeight + 100;
 
             sections.forEach(section => {
@@ -671,11 +670,9 @@
                     currentSectionId = section.getAttribute('id');
                 }
             });
-             // Special case for the very top of the page before any section is "active"
             if (window.scrollY < sections[0].offsetTop - navHeightOffset) {
-                 currentSectionId = 'home'; // Or the ID of your hero section if it's not 'home'
+                 currentSectionId = 'home';
             }
-
 
             navLinksAnchors.forEach(link => {
                 link.classList.remove('active-link');
@@ -715,53 +712,37 @@
                     const delay = parseInt(el.dataset.delay) || 0;
                     
                     setTimeout(() => {
-                        // Check for specific slide classes first
                         if (el.classList.contains('slide-in-up') || 
                             el.classList.contains('slide-in-left') || 
                             el.classList.contains('slide-in-right')) {
                            el.classList.add('visible');
                         } 
-                        // Then check for fade-in (or treat as default)
                         else if (el.classList.contains('fade-in')) {
-                           el.classList.add('visible'); // Use 'visible' for fade-in too, as CSS is set up this way
+                           el.classList.add('visible');
                         } else {
-                            // Fallback if no specific animation class, just make it visible
                             el.classList.add('visible'); 
                         }
                     }, delay);
-                    
-                    // observerInstance.unobserve(el); // Uncomment to animate only once
-                } else {
-                    // Optional: Reset animation
-                    // const el = entry.target;
-                    // el.classList.remove('visible');
                 }
             });
         }, observerOptions);
 
         animatedElements.forEach(el => observer.observe(el));
 
-        // Image/Video Load Checks (Оставлено без изменений, т.к. они корректны)
         const bgImg = document.querySelector('.background-image');
         if (bgImg) {
-            bgImg.onerror = () => {
-                console.error('Ошибка загрузки PNG: images/background.png.');
-                bgImg.style.display = 'none';
-            };
-            bgImg.onload = () => console.log('PNG успешно загружен: images/background.png.');
+            bgImg.onerror = () => { console.error('Ошибка PNG: images/background.png.'); bgImg.style.display = 'none'; };
+            bgImg.onload = () => console.log('PNG загружен: images/background.png.');
         }
         const concertImg = document.querySelector('.concert-image');
         if (concertImg) {
-            concertImg.onerror = () => {
-                console.error('Ошибка загрузки изображения: images/concert.jpg.');
-                concertImg.src = 'https://via.placeholder.com/800x450/181818/ff6200?text=Concert+Error';
-            };
-            concertImg.onload = () => console.log('Изображение концертов загружено: images/concert.jpg.');
+            concertImg.onerror = () => { console.error('Ошибка concert.jpg.'); concertImg.src = 'https://via.placeholder.com/800x450/181818/ff6200?text=Concert+Error'; };
+            concertImg.onload = () => console.log('Concert.jpg загружен.');
         }
         const videos = document.querySelectorAll('.portfolio video');
         videos.forEach((video, index) => {
-            video.onerror = () => console.error(`Ошибка видео: video/video${index + 1}.mp4.`);
-            video.onloadeddata = () => console.log(`Видео загружено: video/video${index + 1}.mp4`);
+            video.onerror = () => console.error(`Ошибка video${index + 1}.mp4.`);
+            video.onloadeddata = () => console.log(`Video${index + 1}.mp4 загружено`);
         });
         const galleryImages = document.querySelectorAll('.gallery-item img');
         galleryImages.forEach((img) => {
@@ -770,15 +751,9 @@
             img.onerror = () => {
                 console.error(`Ошибка фото: ${imageName}.`);
                 img.src = `https://via.placeholder.com/300x200/181818/ff6200?text=Photo+Error`;
-                 if (img.nextElementSibling && img.nextElementSibling.classList.contains('overlay')) {
-                    img.nextElementSibling.style.display = 'none';
-                }
+                 if (img.nextElementSibling && img.nextElementSibling.classList.contains('overlay')) { img.nextElementSibling.style.display = 'none'; }
             };
-            img.onload = () => {
-                if (!img.src.startsWith('https://via.placeholder.com')) {
-                    console.log(`Фото загружено: ${imageName}`);
-                }
-            };
+            img.onload = () => { if (!img.src.startsWith('https://via.placeholder.com')) { console.log(`Фото загружено: ${imageName}`); } };
         });
     </script>
 </body>
