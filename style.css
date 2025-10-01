@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: #121212;
+    color: #e0e0e0;
+    --primary-color: #ff8c00;
+    --secondary-color: #e5aa08;
+}
+
+.hero {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background-size: 200% 200%;
+    padding: 120px 20px;
+    text-align: center;
+    animation: gradient-animation 10s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+    animation: light-rays 15s linear infinite;
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes light-rays {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.band-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--secondary-color), 0 0 30px var(--secondary-color), 0 0 40px var(--secondary-color);
+    position: relative;
+}
+
+.slogan {
+    font-size: 1.6em;
+    margin: 20px 0 30px;
+    font-style: italic;
+}
+
+.cta-button {
+    background-color: #fff;
+    color: var(--primary-color);
+    border: none;
+    padding: 18px 35px;
+    font-size: 1.3em;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+.cta-button:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3em;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+.gallery {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.gallery img {
+    max-width: 100%;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+}
+
+.portraits {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.portrait {
+    text-align: center;
+}
+
+.portrait img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.portrait img:hover {
+    transform: scale(1.1);
+}
+
+.portrait p {
+    margin-top: 10px;
+    font-weight: 700;
+}
+
+.tech-photos img {
+    margin-top: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-section {
+    padding: 80px 0;
+}
+
+.carousel {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.carousel-item img {
+    width: 100%;
+    display: block;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.carousel-control.prev {
+    left: 10px;
+}
+
+.carousel-control.next {
+    right: 10px;
+}
+
+.video-carousel .carousel-item {
+    min-width: 300px; 
+}
+
+.video-carousel .carousel-inner {
+    gap: 20px;
+}
+
+.video-wrapper {
+    width: 300px;
+    height: 533px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.testimonial {
+    margin-bottom: 30px;
+    font-style: italic;
+    font-size: 1.2em;
+}
+
+.testimonial span {
+    display: block;
+    margin-top: 10px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+form button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+.contact-links {
+    margin-top: 30px;
+}
+
+.contact-links a {
+    margin: 0 15px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.contact-links a:hover {
+    transform: scale(1.1);
+}
+
+.contact-links img {
+    width: 50px;
+    height: 50px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #000;
+    margin-top: 60px;
+}
+
+footer p {
+    margin: 0 0 15px;
+    font-size: 1.1em;
+}
+
+.social-links a {
+    margin: 0 15px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #fff;
+}
+
+footer a {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .band-name {
+        font-size: 3em;
+    }
+
+    .slogan {
+        font-size: 1.2em;
+    }
+
+    h2 {
+        font-size: 2.2em;
+    }
+
+    section {
+        padding: 60px 15px;
+    }
+
+    .gallery img {
+        width: calc(50% - 10px);
+    }
+
+    .video-wrapper {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 9 / 16;
+    }
+}
+
+@media (max-width: 480px) {
+    .band-name {
+        font-size: 2.5em;
+    }
+
+    .slogan {
+        font-size: 1em;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    .cta-button {
+        font-size: 1em;
+        padding: 12px 25px;
+    }
+
+    .gallery img {
+        width: 100%;
+    }
+
+    .video-carousel .carousel-item {
+        min-width: 100%; 
+    }
+}
